@@ -1,0 +1,235 @@
+/* === Global Wrapper === */
+.loan-form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem 1rem;
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8, #2563eb);
+  min-height: 100vh;
+}
+
+/* === Form Card === */
+.loan-form {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 900px;
+  width: 100%;
+  box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  animation: fadeInUp 0.8s ease;
+}
+
+/* === Header === */
+.loan-form__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.loan-form__title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ffffff, #dbeafe, #93c5fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.loan-form__subtitle {
+  font-size: 1rem;
+  color: #f1f5f9;
+  margin-top: 0.5rem;
+}
+
+/* === Grid Layout === */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem 2rem;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row.full {
+  grid-column: 1 / -1;
+}
+
+/* Style Loan Type Select */
+.form-row select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(30, 41, 59, 0.85); /* Dark bluish background */
+  color: #fff; /* White text */
+  font-size: 1rem;
+  outline: none;
+  cursor: pointer;
+  appearance: none; /* removes default arrow */
+  transition: 0.3s;
+}
+
+/* Hover & Focus */
+.form-row select:hover {
+  background: rgba(51, 65, 85, 0.9);
+}
+
+.form-row select:focus {
+  background: rgba(30, 58, 138, 0.9);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+  border-color: rgba(56, 189, 248, 0.8);
+}
+
+/* Style options inside dropdown */
+.form-row select option {
+  background: #1e293b;  /* dark background */
+  color: #fff;          /* white text */
+}
+
+
+/* === Labels & Inputs === */
+label {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #f8fafc;
+}
+
+input, select, textarea {
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transition: 0.3s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+input:focus, select:focus, textarea:focus {
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0px 0px 8px rgba(56, 189, 248, 0.7);
+}
+
+/* === Uploads === */
+.upload-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.upload-row label {
+  margin-bottom: 0; /* remove bottom margin */
+  white-space: nowrap; /* prevent label text wrapping */
+}
+
+.upload-row input[type="file"] {
+  flex: 1; /* keeps input in same line */
+  min-width: 200px;
+}
+
+
+.photo-preview {
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px dashed rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  overflow: hidden;
+}
+
+/* === Textarea === */
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* === Terms Row === */
+.terms-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  color: #f1f5f9;
+}
+
+.terms-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: #38bdf8;
+}
+
+/* === Buttons === */
+.buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.9rem 2rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1e293b, #334155);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+  transform: translateY(-2px);
+}
+
+/* === Animations === */
+@keyframes fadeInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+/* === Responsive === */
+@media (max-width: 600px) {
+  .loan-form {
+    padding: 1.5rem;
+  }
+  
+  .loan-form__title {
+    font-size: 1.6rem;
+  }
+}

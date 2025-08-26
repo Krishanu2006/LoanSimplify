@@ -1,0 +1,69 @@
+/* Container */
+.review-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f9fafb;
+  color: #333;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Main Content */
+.review-content {
+  flex: 1;
+  padding: 2rem 5%;
+}
+
+.review-content h2 {
+  margin-bottom: 1rem;
+  color: #0f172a;
+}
+
+/* Table Styling */
+.review-content table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.review-content th,
+.review-content td {
+  border: 1px solid #e2e8f0;
+  padding: 12px;
+  text-align: left;
+}
+
+.review-content th {
+  background: #f1f5f9;
+  font-weight: bold;
+}
+
+/* Status Badge Styles */
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.status-pending {
+  background: #fff7ed;
+  color: #f97316;
+  border: 1px solid #fdba74;
+}
+
+.status-verified {
+  background: #ecfdf5;
+  color: #16a34a;
+  border: 1px solid #86efac;
+}
+
+.status-rejected {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+}
