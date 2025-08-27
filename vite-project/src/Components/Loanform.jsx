@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { db } from "../lib/firebase";  // adjust path if different
 import { collection, doc, addDoc, serverTimestamp } from "firebase/firestore";
+import "./Loanform.css"
 
 const LoanForm = () => {
   const [formData, setFormData] = useState({
