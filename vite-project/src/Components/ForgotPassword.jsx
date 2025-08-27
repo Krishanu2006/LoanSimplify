@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
-import './forgotPassword.css';
+import React, { useState } from "react";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../lib/firebase"; // <-- adjust the path to your firebase.ts
+import "./forgotPassword.css";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // TODO: Replace this with actual API call to send reset email
-    if (email) {
-      setMessage(`If an account exists for ${email}, a reset link has been sent.`);
-    } else {
-      setMessage('Please enter a valid email address.');
+    setMessage("");
+    setError("");
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setMessage(
+        `If an account exists for ${email}, a reset link has been sent.`
+      );
+    } catch (err) {
+      setError("Failed to send reset email. Please try again.");
+      console.error("Password reset error:", err);
     }
   };
 
@@ -30,7 +38,9 @@ const ForgotPassword = () => {
         />
         <button type="submit">Send Reset Link</button>
       </form>
-      {message && <p className="message">{message}</p>}
+
+      {message && <p className="message success">{message}</p>}
+      {error && <p className="message error">{error}</p>}
     </div>
   );
 };

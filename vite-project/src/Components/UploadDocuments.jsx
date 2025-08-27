@@ -6,10 +6,10 @@ import Footer from "./Footer";
 
 const mockAadhaarDB = {
   "123412341234": {
-    name: "Rahul Sharma",
-    dob: "1992-07-15",
+    name: "Shayan Ghosh",
+    dob: "2006-03-04",
     gender: "Male",
-    address: "123, MG Road, Delhi",
+    address: "Salt Lake, Kolkata",
   },
   "987654321098": {
     name: "Anjali Verma",
