@@ -178,30 +178,41 @@
 }
 
 /* Chat messages area */
+/* Chat messages area */
 .chat-messages {
   flex: 1;
   padding: 10px;
   overflow-y: auto;
   font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .user-msg {
-  background-color: #d1e7ff;
-  padding: 6px 10px;
-  border-radius: 8px;
+  display: inline-block;
+  background-color: #007bff !important; /* brighter blue */
+  color: #ffffff !important;            /* white text */
+  padding: 8px 12px;
+  border-radius: 12px;
   margin: 6px 0;
   align-self: flex-end;
   max-width: 80%;
+  word-wrap: break-word;
 }
 
 .ai-msg {
-  background-color: #f1f1f1;
-  padding: 6px 10px;
-  border-radius: 8px;
+  display: inline-block;
+  background-color: #e5e5ea !important; /* WhatsApp-style grey */
+  color: #000000 !important;            /* black text */
+  padding: 8px 12px;
+  border-radius: 12px;
   margin: 6px 0;
   align-self: flex-start;
   max-width: 80%;
+  word-wrap: break-word;
 }
+
+
 
 /* Chat input area */
 .chat-input {
@@ -211,11 +222,15 @@
 
 .chat-input input {
   flex: 1;
-  padding: 8px;
-  border: none;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
   outline: none;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  background-color: #fafafa;   /* light grey */
+  color: #111;                 /* dark text */
 }
+
 
 .chat-input button {
   background-color: #003366;
