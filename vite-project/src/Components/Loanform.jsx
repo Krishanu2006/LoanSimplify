@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { db } from "../lib/firebase";  // adjust path if different
 import { collection, doc, addDoc, serverTimestamp } from "firebase/firestore";
 import "./Loanform.css"
+import Header from './Header';
+import Footer from './Footer';
+
 
 const LoanForm = () => {
   const [formData, setFormData] = useState({
@@ -57,6 +60,8 @@ const LoanForm = () => {
   };
 
   return (
+    <>
+    <Header/>
     <form onSubmit={handleSubmit}>
       <input
         type="text"
@@ -132,6 +137,8 @@ const LoanForm = () => {
       />
       <button type="submit">Submit Loan Application</button>
     </form>
+    <Footer/>
+    </>
   );
 };
 
