@@ -3,24 +3,20 @@
 @tailwind utilities;
 
 body {
+  margin: 0;
+  padding: 0;
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(135deg, #4a90e2, #50c9c3);
-  min-height: 100vh;
-  margin: 0; 
-  padding: 0%;
-  padding-left: 0px;
-  margin-left: 0%;             /* remove default browser margins */
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  background: transparent;   /* erase gradient */
 }
 
 /* Root container */
 #root {
-  width: 100%;            /* take full width */
-  min-height: 100vh;      /* take full height */
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: transparent; /* remove white bg so gradient shows fully */
+
+  /* Now put your gradient here instead */
+  background: linear-gradient(135deg, #4a90e2, #50c9c3);
 }
