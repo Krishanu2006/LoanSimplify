@@ -4,6 +4,7 @@ import { collection, doc, addDoc, serverTimestamp } from "firebase/firestore";
 import "./Loanform.css"
 import Header from './Header';
 import Footer from './Footer';
+import { Link } from "react-router-dom";
 
 
 const LoanForm = () => {
@@ -135,7 +136,7 @@ const LoanForm = () => {
         onChange={handleChange}
         required
       />
-      <button type="submit">Submit Loan Application</button>
+      <Link to="/UploadDocuments" className="submit">Submit Loan Application</Link>
     </form>
     <Footer/>
     </>
