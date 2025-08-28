@@ -3,15 +3,12 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: white;
-  max-width: 1600px;
-  margin: 0 auto;
+  background: white;  /* or your gradient */
 }
 
 /* Hero Section */
 .hero-section {
   background: linear-gradient(to bottom right, #f9fafb, #ffffff, #eff6ff);
-  padding: 6rem 1.5rem;
 }
 
 .hero-content {
@@ -71,6 +68,7 @@
   font-weight: 600;
   transition: 0.2s;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
 }
 
 .btn-primary:hover {
@@ -87,6 +85,7 @@
   font-weight: 600;
   transition: 0.2s;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
 }
 
 .btn-outline:hover {

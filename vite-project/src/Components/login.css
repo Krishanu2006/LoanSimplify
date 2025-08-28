@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: #f1f5f9; /* optional light gray bg for contrast */
 }
 
 .login-container {
@@ -10,15 +11,26 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
-  max-width: 600px;   /* ⬅️ Increased from 400px */
-  width: 100%;        /* Make sure it expands properly */
+
+  width: 100%;
+  /* scales from small to wide screens smoothly */
+  max-width: clamp(600px, 90vw, 1000px);
+
   margin: 2rem auto;
-  background: #ffffff;
+  padding: 2rem;
+  background: #fff;
   border-radius: 12px;
-  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 18px rgba(0,0,0,.1);
 }
 
+
+/* On desktops, allow the card to expand more */
+@media (min-width: 1024px) {
+  .login-container {
+    max-width: 900px;  /* wider on large screens */
+    padding: 3rem;     /* more breathing space */
+  }
+}
 
 .form-title {
   font-size: 1.3rem;

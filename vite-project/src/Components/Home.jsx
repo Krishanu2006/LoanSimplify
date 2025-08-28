@@ -74,7 +74,7 @@ const Home = () => {
         <div className="features-container">
           <div className="features-header">
             <h2>
-              Why Choose <span className="highlight">DocVerify</span>?
+              Why Choose <span className="highlight">LoanSimplify</span>?
             </h2>
             <p>
               A trusted platform that combines speed, compliance, and security—empowering organizations to verify identities effortlessly.
