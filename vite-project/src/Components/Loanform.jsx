@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { db } from "../lib/firebase";  // adjust path if different
+import { db } from "../lib/firebase";  // adjust path if needed
 import { collection, doc, addDoc, serverTimestamp } from "firebase/firestore";
-import "./Loanform.css"
-import Header from './Header';
-import Footer from './Footer';
-import { Link } from "react-router-dom";
-
+import "./Loanform.css";
+import Header from "./Header";
+import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 const LoanForm = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     aadhaarNumber: "",
     fullName: "",
@@ -38,10 +39,11 @@ const LoanForm = () => {
       await addDoc(loanApplicationsRef, {
         ...formData,
         status: "pending",   // default status
-        createdAt: serverTimestamp()
+        createdAt: serverTimestamp(),
       });
 
       alert("Loan application submitted successfully!");
+
       setFormData({
         aadhaarNumber: "",
         fullName: "",
@@ -51,8 +53,11 @@ const LoanForm = () => {
         employmentStatus: "",
         income: "",
         loanType: "",
-        loanAmount: ""
+        loanAmount: "",
       });
+
+      // redirect to document upload page
+      navigate("/UploadDocuments");
 
     } catch (error) {
       console.error("Error submitting loan application: ", error);
@@ -62,83 +67,90 @@ const LoanForm = () => {
 
   return (
     <>
-    <Header/>
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="aadhaarNumber"
-        placeholder="Aadhaar Number"
-        value={formData.aadhaarNumber}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        name="fullName"
-        placeholder="Full Name"
-        value={formData.fullName}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        name="phone"
-        placeholder="Phone Number"
-        value={formData.phone}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        name="address"
-        placeholder="Address"
-        value={formData.address}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        name="employmentStatus"
-        placeholder="Employment Status"
-        value={formData.employmentStatus}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="number"
-        name="income"
-        placeholder="Income"
-        value={formData.income}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        name="loanType"
-        placeholder="Loan Type"
-        value={formData.loanType}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="number"
-        name="loanAmount"
-        placeholder="Loan Amount"
-        value={formData.loanAmount}
-        onChange={handleChange}
-        required
-      />
-      <Link to="/UploadDocuments" className="submit">Submit Loan Application</Link>
-    </form>
-    <Footer/>
+      <Header />
+      <div className="loan-form-container">
+        <form onSubmit={handleSubmit}>
+          <h2 className="loan-form-heading">Loan Application Form</h2>
+          <input
+            type="text"
+            name="aadhaarNumber"
+            placeholder="Aadhaar Number"
+            value={formData.aadhaarNumber}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="fullName"
+            placeholder="Full Name"
+            value={formData.fullName}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="phone"
+            placeholder="Phone Number"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="address"
+            placeholder="Address"
+            value={formData.address}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="employmentStatus"
+            placeholder="Employment Status"
+            value={formData.employmentStatus}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="number"
+            name="income"
+            placeholder="Income"
+            value={formData.income}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="loanType"
+            placeholder="Loan Type"
+            value={formData.loanType}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="number"
+            name="loanAmount"
+            placeholder="Loan Amount"
+            value={formData.loanAmount}
+            onChange={handleChange}
+            required
+          />
+
+          {/* ✅ Use button instead of Link */}
+          <button type="submit" className="submit">
+            Submit Loan Application
+          </button>
+        </form>
+      </div>
+      <Footer />
     </>
   );
 };

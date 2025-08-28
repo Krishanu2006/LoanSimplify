@@ -20,19 +20,23 @@ form {
   box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.2rem;
   animation: fadeInUp 0.7s ease-out;
 }
 
 /* Form Title */
-form::before {
-  content: "Loan Application Form";
-  display: block;
-  font-size: 1.6rem;
+form h2 {
+  font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem 0;
   text-align: center;
   color: #333;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #4a90e2, #50c9c3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.6rem;
 }
 
 /* Inputs */
@@ -53,7 +57,7 @@ form input:focus {
   box-shadow: 0 0 12px rgba(74,144,226,0.3);
 }
 
-/* Submit Button (Link styled as button) */
+/* Submit Button */
 form .submit {
   text-align: center;
   background: linear-gradient(90deg, #4a90e2, #50c9c3);
@@ -86,8 +90,8 @@ form input:hover {
     padding: 1.5rem;
     border-radius: 15px;
   }
-  form::before {
-    font-size: 1.3rem;
+  form h2 {
+    font-size: 1.5rem;
   }
 }
 
