@@ -10,6 +10,10 @@ import Review from './Components/Review';
 import LoanForm from './Components/Loanform';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
+import Sidebar from './Components/Sidebar';
+import LoanApplication from './Components/LoanApplication';
+import LoanTypeCard from './Components/LoanTypeCard';
+import ProgressBar from './Components/ProgressBar';
 
 function App() {
   return (
@@ -25,6 +29,10 @@ function App() {
       <Route path = '/loanform' element={<LoanForm/>}/>
       <Route path='/header' element={<Header/>}/>
       <Route path='/footer' element={<Footer/>}/>
+      <Route path='/sidebar' element={<Sidebar/>}/>
+      <Route path='/loanapplication' element={<LoanApplication/>}/>
+      <Route path='/loantypecard' element={<LoanTypeCard/>}/>
+      <Route path='/progressbar' element={<ProgressBar/>}/>
     </Routes>
   );
 }

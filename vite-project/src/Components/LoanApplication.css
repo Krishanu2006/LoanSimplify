@@ -1,0 +1,138 @@
+/* Container */
+.loan-application {
+  flex: 1;
+  background-color: #f8fafc; /* slate-50 */
+  padding: 2rem;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.loan-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.loan-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e293b; /* slate-800 */
+  margin-bottom: 0.5rem;
+}
+
+.loan-header p {
+  font-size: 1.125rem;
+  color: #475569; /* slate-600 */
+}
+
+/* Loan Form */
+.loan-form {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  margin-top: 2rem;
+  border: 1px solid #e2e8f0; /* slate-200 */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* Loan Type Section */
+.loan-type-selection h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+}
+
+.loan-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+/* Loan Amount */
+.loan-amount label {
+  display: block;
+  font-weight: 500;
+  color: #334155; /* slate-700 */
+  margin-bottom: 0.75rem;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper .currency {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b; /* slate-500 */
+  font-weight: 500;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 2.5rem;
+  border-radius: 1rem;
+  border: 1px solid #cbd5e1; /* slate-300 */
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-wrapper input:focus {
+  border-color: #3b82f6; /* blue-500 */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Step Navigation Buttons */
+.step-navigation {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1.5rem;
+}
+
+.step-navigation button {
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  border-radius: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.step-navigation button:disabled {
+  background-color: #cbd5e1; /* slate-300 */
+  cursor: not-allowed;
+}
+
+.step-navigation button:not(:disabled) {
+  background-color: #3b82f6; /* blue-500 */
+  color: #ffffff;
+}
+
+.step-navigation button:not(:disabled):hover {
+  background-color: #2563eb; /* blue-600 */
+}
+
+/* Placeholder Steps */
+.step-next h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.step-next p {
+  color: #475569;
+  margin-bottom: 2rem;
+}
+
+.step-next .step-navigation button {
+  background-color: #3b82f6;
+  color: #fff;
+}
+
+.step-next .step-navigation button:hover {
+  background-color: #2563eb;
+}
