@@ -1,4 +1,4 @@
-import { BrowserRouter,Routes, Route } from 'react-router-dom';
+import {Routes, Route } from 'react-router-dom';
 import Home from './Components/Home';
 import Signup from './Components/Signup';
 import Login from './Components/login';
@@ -17,7 +17,6 @@ import ProgressBar from './Components/ProgressBar';
 
 function App() {
   return (
-    <BrowserRouter basename="/LoanSimplify">
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path='/signup' element={<Signup />}/>
@@ -35,7 +34,6 @@ function App() {
       <Route path='/loantypecard' element={<LoanTypeCard/>}/>
       <Route path='/progressbar' element={<ProgressBar/>}/>
     </Routes>
-    </BrowserRouter>
   );
 }
 

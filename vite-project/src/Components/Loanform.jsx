@@ -368,7 +368,7 @@ const LoanForm = () => {
               <div className="loan-type">
                 <input
                   type="text"
-                  name="current"
+                  name="currentYear"
                   placeholder="Curerent Study of Year(e.g. 1st Year)"
                   value={formData.currentYear}
                   onChange={handleChange}
@@ -452,7 +452,7 @@ const LoanForm = () => {
                 />
                 <input
                   type="text"
-                  name="workExperience"
+                  name="workfor"
                   placeholder="Work Experience"
                   value={formData.workfor}
                   onChange={handleChange}
@@ -540,7 +540,7 @@ const LoanForm = () => {
               </div>
               <div className="loan-type">
                 <select 
-                  name="owner" 
+                  name="ownner" 
                   value={formData.ownner}
                   onChange={handleChange}
                   required
@@ -552,7 +552,7 @@ const LoanForm = () => {
                 </select>
                 <input 
                   type="number" 
-                  name="landArea"
+                  name="area"
                   placeholder="Land Area(in acres)"
                   value={formData.area}
                   onChange={handleChange}
