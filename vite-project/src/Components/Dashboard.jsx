@@ -16,7 +16,7 @@ const Dashboard = () => {
   const chatRef = useRef();
 
   // 🔑 Paste your Groq API key here directly
-  const API_KEY = "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";
+  const API_KEY = "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";
 
   const handleProfileClick = () => {
     setShowDropdown(prev => !prev);
