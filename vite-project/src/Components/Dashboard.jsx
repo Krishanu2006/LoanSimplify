@@ -13,14 +13,14 @@ const Dashboard = () => {
   const dropdownRef = useRef();
   const chatRef = useRef();
 
-  const API_KEY = "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";
+  const handleProfileClick = () => setShowDropdown((prev) => !prev);
 
-  const handleProfileClick = () => setShowDropdown(prev => !prev);
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    window.location.href = "/login";
+    localStorage.removeItem('user');
+    window.location.href = '/login';
   };
-  const toggleAI = () => setShowAI(prev => !prev);
+
+  const toggleAI = () => setShowAI((prev) => !prev);
 
   const handleSend = async () => {
     if (!userInput.trim()) return;
@@ -30,32 +30,21 @@ const Dashboard = () => {
     setUserInput('');
 
     try {
-      const res = await axios.post(
-        'https://api.groq.com/openai/v1/chat/completions',
-        {
-          model: 'llama3-8b-8192',
-          messages: [
-            {
-              role: 'system',
-              content:
-                'You are a financial assistant. Provide clear, readable, and well-formatted information regarding loans and financial advice.',
-            },
-            ...newChat.map((msg) => ({
-              role: msg.sender === 'user' ? 'user' : 'assistant',
-              content: msg.text,
-            })),
-          ],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${API_KEY}`, // ✅ Corrected
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      // ✅ Call backend (instead of Groq directly)
+      const res = await axios.post('http://localhost:5000/api/chat', {
+        messages: newChat.map((msg) => ({
+          role: msg.sender === 'user' ? 'user' : 'assistant',
+          content: msg.text,
+        })),
+      });
 
-      const rawContent = res?.data?.choices?.[0]?.message?.content || '';
-      const formattedReply = rawContent
+      // ✅ Extract AI reply safely
+      const aiReply =
+        res.data.choices?.[0]?.message?.content ||
+        '⚠️ No response from AI.';
+
+      // ✅ Format reply cleanly
+      const formattedReply = aiReply
         .replace(/\n?\s*\u2022\s*/g, '\n\u2022 ')
         .replace(/::/g, '')
         .replace(/\u2022\s*\u2022/g, '\u2022')
@@ -64,8 +53,11 @@ const Dashboard = () => {
 
       setChat([...newChat, { sender: 'ai', text: formattedReply }]);
     } catch (error) {
-      console.error('GROQ API error:', error);
-      setChat([...newChat, { sender: 'ai', text: 'Something went wrong. Try again.' }]);
+      console.error('Backend error:', error);
+      setChat([
+        ...newChat,
+        { sender: 'ai', text: '❌ Something went wrong. Try again.' },
+      ]);
     }
   };
 
@@ -99,7 +91,10 @@ const Dashboard = () => {
 
         <Link to="/documentationsection" className="dashboard-card">
           <h3>Document Upload</h3>
-          <p>Securely upload financial documents for verification or loan applications.</p>
+          <p>
+            Securely upload financial documents for verification or loan
+            applications.
+          </p>
         </Link>
 
         <Link to="/review" className="dashboard-card">
@@ -109,7 +104,11 @@ const Dashboard = () => {
       </main>
 
       {/* Floating AI Toggle Button */}
-      <div className="ai-toggle-button" onClick={toggleAI} title="AI Financial Assistant">
+      <div
+        className="ai-toggle-button"
+        onClick={toggleAI}
+        title="AI Financial Assistant"
+      >
         🤖
       </div>
 
@@ -119,7 +118,10 @@ const Dashboard = () => {
           <h4>Finance Assistant</h4>
           <div className="chat-messages">
             {chat.map((msg, i) => (
-              <div key={i} className={msg.sender === 'user' ? 'user-msg' : 'ai-msg'}>
+              <div
+                key={i}
+                className={msg.sender === 'user' ? 'user-msg' : 'ai-msg'}
+              >
                 {msg.text.split('\n').map((line, idx) => (
                   <p key={idx}>{line}</p>
                 ))}
