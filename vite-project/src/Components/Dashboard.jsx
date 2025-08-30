@@ -6,6 +6,7 @@ import axios from 'axios';
 // Import Header & Footer
 import Header from './Header';
 import Footer from './Footer';
+require('dotenv').config();
 
 const Dashboard = () => {
   const [chat, setChat] = useState([]);
@@ -14,9 +15,6 @@ const Dashboard = () => {
   const [showAI, setShowAI] = useState(false);
   const dropdownRef = useRef();
   const chatRef = useRef();
-
-  // 🔑 Paste your Groq API key here directly
-  const API_KEY = "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";
 
   const handleProfileClick = () => {
     setShowDropdown(prev => !prev);
@@ -44,11 +42,7 @@ const Dashboard = () => {
         {
           model: 'llama3-8b-8192',
           messages: [
-            {
-              role: 'system',
-              content:
-                'You are a financial assistant. Provide clear, readable, and well-formatted information regarding loans and financial advice.',
-            },
+            { role: 'system', content: 'You are a financial assistant. Provide clear, readable, and well-formatted information regarding loans and financial advice.' },
             ...newChat.map((msg) => ({
               role: msg.sender === 'user' ? 'user' : 'assistant',
               content: msg.text,
@@ -57,7 +51,7 @@ const Dashboard = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${API_KEY}`, // 👈 using direct API key
+            Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
             'Content-Type': 'application/json',
           },
         }
@@ -80,7 +74,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (
+        dropdownRef.current && !dropdownRef.current.contains(event.target)
+      ) {
         setShowDropdown(false);
       }
       if (
@@ -91,8 +87,8 @@ const Dashboard = () => {
         setShowAI(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
@@ -103,10 +99,7 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="dashboard-main">
         <h2>Welcome to the Student Dashboard!</h2>
-        <p>
-          Manage your financial documents, apply for loans, and receive
-          assistance from our AI advisor.
-        </p>
+        <p>Manage your financial documents, apply for loans, and receive assistance from our AI advisor.</p>
 
         <Link to="/loanform" className="dashboard-card">
           <h3>Document Upload</h3>
@@ -120,11 +113,7 @@ const Dashboard = () => {
       </main>
 
       {/* Floating AI Toggle Button */}
-      <div
-        className="ai-toggle-button"
-        onClick={toggleAI}
-        title="AI Financial Assistant"
-      >
+      <div className="ai-toggle-button" onClick={toggleAI} title="AI Financial Assistant">
         🤖
       </div>
 
@@ -134,10 +123,7 @@ const Dashboard = () => {
           <h4>Finance Assistant</h4>
           <div className="chat-messages">
             {chat.map((msg, i) => (
-              <div
-                key={i}
-                className={msg.sender === 'user' ? 'user-msg' : 'ai-msg'}
-              >
+              <div key={i} className={msg.sender === 'user' ? 'user-msg' : 'ai-msg'}>
                 {msg.text.split('\n').map((line, idx) => (
                   <p key={idx}>{line}</p>
                 ))}
