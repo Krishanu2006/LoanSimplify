@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import './Dashboard.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
-// Import Header & Footer
 import Header from './Header';
 import Footer from './Footer';
 
@@ -15,18 +13,14 @@ const Dashboard = () => {
   const dropdownRef = useRef();
   const chatRef = useRef();
 
-  const handleProfileClick = () => {
-    setShowDropdown(prev => !prev);
-  };
+  const API_KEY = "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";
 
+  const handleProfileClick = () => setShowDropdown(prev => !prev);
   const handleLogout = () => {
     localStorage.removeItem("user");
     window.location.href = "/login";
   };
-
-  const toggleAI = () => {
-    setShowAI(prev => !prev);
-  };
+  const toggleAI = () => setShowAI(prev => !prev);
 
   const handleSend = async () => {
     if (!userInput.trim()) return;
@@ -41,7 +35,11 @@ const Dashboard = () => {
         {
           model: 'llama3-8b-8192',
           messages: [
-            { role: 'system', content: 'You are a financial assistant. Provide clear, readable, and well-formatted information regarding loans and financial advice.' },
+            {
+              role: 'system',
+              content:
+                'You are a financial assistant. Provide clear, readable, and well-formatted information regarding loans and financial advice.',
+            },
             ...newChat.map((msg) => ({
               role: msg.sender === 'user' ? 'user' : 'assistant',
               content: msg.text,
@@ -50,13 +48,13 @@ const Dashboard = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
+            Authorization: `Bearer ${API_KEY}`, // ✅ Corrected
             'Content-Type': 'application/json',
           },
         }
       );
 
-      let rawContent = res.data.choices[0].message.content;
+      const rawContent = res?.data?.choices?.[0]?.message?.content || '';
       const formattedReply = rawContent
         .replace(/\n?\s*\u2022\s*/g, '\n\u2022 ')
         .replace(/::/g, '')
@@ -73,9 +71,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current && !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowDropdown(false);
       }
       if (
@@ -86,21 +82,22 @@ const Dashboard = () => {
         setShowAI(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
     <div className="dashboard-container">
-      {/* Reusable Header */}
       <Header />
 
-      {/* Main Content */}
       <main className="dashboard-main">
         <h2>Welcome to the Student Dashboard!</h2>
-        <p>Manage your financial documents, apply for loans, and receive assistance from our AI advisor.</p>
+        <p>
+          Manage your financial documents, apply for loans, and receive
+          assistance from our AI advisor.
+        </p>
 
-        <Link to="/loanform" className="dashboard-card">
+        <Link to="/documentationsection" className="dashboard-card">
           <h3>Document Upload</h3>
           <p>Securely upload financial documents for verification or loan applications.</p>
         </Link>
@@ -142,7 +139,6 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Reusable Footer */}
       <Footer />
     </div>
   );
