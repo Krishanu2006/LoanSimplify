@@ -6,7 +6,6 @@ import axios from 'axios';
 // Import Header & Footer
 import Header from './Header';
 import Footer from './Footer';
-require('dotenv').config();
 
 const Dashboard = () => {
   const [chat, setChat] = useState([]);
@@ -37,28 +36,20 @@ const Dashboard = () => {
     setUserInput('');
 
     try {
-      const res = await axios.post(
-        'https://api.groq.com/openai/v1/chat/completions',
-        {
-          model: 'llama3-8b-8192',
-          messages: [
-            { role: 'system', content: 'You are a financial assistant. Provide clear, readable, and well-formatted information regarding loans and financial advice.' },
-            ...newChat.map((msg) => ({
-              role: msg.sender === 'user' ? 'user' : 'assistant',
-              content: msg.text,
-            })),
-          ],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      // Call backend (NOT Groq directly)
+      const res = await axios.post('http://localhost:5000/api/chat', {
+        messages: newChat.map((msg) => ({
+          role: msg.sender === 'user' ? 'user' : 'assistant',
+          content: msg.text,
+        })),
+      });
 
-      let rawContent = res.data.choices[0].message.content;
-      const formattedReply = rawContent
+      // Extract reply properly
+      const aiReply =
+        res.data.choices?.[0]?.message?.content ||
+        "⚠️ No response from AI.";
+
+      const formattedReply = aiReply
         .replace(/\n?\s*\u2022\s*/g, '\n\u2022 ')
         .replace(/::/g, '')
         .replace(/\u2022\s*\u2022/g, '\u2022')
@@ -67,16 +58,14 @@ const Dashboard = () => {
 
       setChat([...newChat, { sender: 'ai', text: formattedReply }]);
     } catch (error) {
-      console.error('GROQ API error:', error);
-      setChat([...newChat, { sender: 'ai', text: 'Something went wrong. Try again.' }]);
+      console.error('Backend error:', error);
+      setChat([...newChat, { sender: 'ai', text: '❌ Something went wrong. Try again.' }]);
     }
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current && !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowDropdown(false);
       }
       if (
