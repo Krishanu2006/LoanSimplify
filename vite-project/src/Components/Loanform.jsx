@@ -1,20 +1,27 @@
-import React, { useState } from "react";
-import { db } from "../lib/firebase";  // adjust path if needed
+import React, { useState, useEffect } from "react";
+import { db } from "../lib/firebase";
 import { collection, doc, addDoc, serverTimestamp } from "firebase/firestore";
 import "./Loanform.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
 
-const LoanForm = () => {
+const LoanForm = ({ selectedLoanType }) => {
   const navigate = useNavigate();
-  const [loanType, setLoanType] = useState("")
+
+  const [loanType, setLoanType] = useState(selectedLoanType || "");
+
+  useEffect(() => {
+    setLoanType(selectedLoanType);
+  }, [selectedLoanType]);
+
   const [formData, setFormData] = useState({
     aadhaarNumber: "",
     fullName: "",
     email: "",
     phone: "",
     address: "",
+    age: "",
     employmentStatus: "",
     income: "",
     loanAmount: "",
@@ -23,7 +30,7 @@ const LoanForm = () => {
     businessName: "",
     businessType: "",
     registrationNumber: "",
-    turnOver: "",
+    turnover: "",
     companyName: "",
     designation: "",
     experience: "",
@@ -55,23 +62,19 @@ const LoanForm = () => {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      // Reference to aadhaarUsers/{aadhaarNumber}/loanApplications
       const userRef = doc(db, "aadhaarUsers", formData.aadhaarNumber);
       const loanApplicationsRef = collection(userRef, "loanApplications");
 
       await addDoc(loanApplicationsRef, {
         ...formData,
-        status: "pending",   // default status
+        loanType,
+        status: "pending",
         createdAt: serverTimestamp(),
       });
 
@@ -92,7 +95,7 @@ const LoanForm = () => {
         businessName: "",
         businessType: "",
         registrationNumber: "",
-        turnOver: "",
+        turnover: "",
         companyName: "",
         designation: "",
         experience: "",
@@ -122,11 +125,9 @@ const LoanForm = () => {
         landLocation: "",
         irrigationFacility: ""
       });
-      setLoanType("")
 
-      // redirect to document upload page
+      setLoanType("");
       navigate("/UploadDocuments");
-
     } catch (error) {
       console.error("Error submitting loan application: ", error);
       alert("Something went wrong. Please try again.");
@@ -135,10 +136,11 @@ const LoanForm = () => {
 
   return (
     <>
-      <Header />
       <div className="loan-form-container">
         <form onSubmit={handleSubmit}>
           <h2 className="loan-form-heading">Loan Application Form</h2>
+
+          {/* Loan Type Dropdown */}
           <select
             name="loanType"
             value={loanType}
@@ -154,175 +156,45 @@ const LoanForm = () => {
             <option value="gold">Gold Loan</option>
             <option value="agri">Agricultural Loan</option>
           </select>
-          <input
-            type="text"
-            name="aadhaarNumber"
-            placeholder="Aadhaar Number"
-            value={formData.aadhaarNumber}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="text"
-            name="fullName"
-            placeholder="Full Name"
-            value={formData.fullName}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="text"
-            name="phone"
-            placeholder="Phone Number"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="text"
-            name="address"
-            placeholder="Address"
-            value={formData.address}
-            onChange={handleChange}
-            required
-          />
-          <input type="number"
-            name="age"
-            placeholder="Age"
-            value={formData.age}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="text"
-            name="employmentStatus"
-            placeholder="Employment Status"
-            value={formData.employmentStatus}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="number"
-            name="income"
-            placeholder="Income"
-            value={formData.income}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="number"
-            name="loanAmount"
-            placeholder="Loan Amount"
-            value={formData.loanAmount}
-            onChange={handleChange}
-            required
-          />
-          {loanType == "vehicle" && (
+
+          {/* Common Fields */}
+          <input type="text" name="aadhaarNumber" placeholder="Aadhaar Number" value={formData.aadhaarNumber} onChange={handleChange} required />
+          <input type="text" name="fullName" placeholder="Full Name" value={formData.fullName} onChange={handleChange} required />
+          <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+          <input type="text" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} required />
+          <input type="text" name="address" placeholder="Address" value={formData.address} onChange={handleChange} required />
+          <input type="number" name="age" placeholder="Age" value={formData.age} onChange={handleChange} required />
+
+          {/* Loan Type Specific Fields */}
+          {loanType === "vehicle" && (
             <div className="loan-type">
-              <input
-                type="text"
-                name="model"
-                placeholder="Vehicle Model"
-                value={formData.model}
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="text"
-                name="type"
-                placeholder="Vehicle Type (e.g. Two Wheeler)"
-                value={formData.type}
-                onChange={handleChange}
-                required
-              />
+              <input type="text" name="model" placeholder="Vehicle Model" value={formData.model} onChange={handleChange} required />
+              <input type="text" name="type" placeholder="Vehicle Type" value={formData.type} onChange={handleChange} required />
             </div>
           )}
 
-          {loanType == "business" && (
+          {loanType === "business" && (
             <>
               <div className="loan-type">
-                <input
-                  type="text"
-                  name="businessName"
-                  placeholder="Business Name"
-                  value={formData.businessName}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="text"
-                  name="businessType"
-                  placeholder="Business Type(e.g. Manufacturing, Retail)"
-                  value={formData.businessType}
-                  onChange={handleChange}
-                  required
-                />
+                <input type="text" name="businessName" placeholder="Business Name" value={formData.businessName} onChange={handleChange} required />
+                <input type="text" name="businessType" placeholder="Business Type" value={formData.businessType} onChange={handleChange} required />
               </div>
               <div className="loan-type">
-                <input
-                  type="text"
-                  name="registrationNumber"
-                  placeholder="Business Registration Number"
-                  value={formData.registrationNumber}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="number"
-                  name="turnover"
-                  placeholder="Annual Turnover (₹)"
-                  value={formData.turnover}
-                  onChange={handleChange}
-                  required
-                />
+                <input type="text" name="registrationNumber" placeholder="Business Registration Number" value={formData.registrationNumber} onChange={handleChange} required />
+                <input type="number" name="turnover" placeholder="Annual Turnover (₹)" value={formData.turnover} onChange={handleChange} required />
               </div>
             </>
           )}
-          {loanType == "personal" && (
+
+          {loanType === "personal" && (
             <>
               <div className="loan-type">
-                <input
-                  type="text"
-                  name="companyName"
-                  placeholder="Company Name"
-                  value={formData.companyName}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="text"
-                  name="designation"
-                  placeholder="Designation"
-                  value={formData.designation}
-                  onChange={handleChange}
-                  required
-                />
+                <input type="text" name="companyName" placeholder="Company Name" value={formData.companyName} onChange={handleChange} required />
+                <input type="text" name="designation" placeholder="Designation" value={formData.designation} onChange={handleChange} required />
               </div>
               <div className="loan-type">
-                <input
-                  type="text"
-                  name="experience"
-                  placeholder="Years of Experience"
-                  value={formData.experience}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="text"
-                  name="accountType"
-                  placeholder="Account Type(savings / current)"
-                  value={formData.accountType}
-                  onChange={handleChange}
-                  required
-                />
+                <input type="text" name="experience" placeholder="Years of Experience" value={formData.experience} onChange={handleChange} required />
+                <input type="text" name="accountType" placeholder="Account Type" value={formData.accountType} onChange={handleChange} required />
               </div>
             </>
           )}
@@ -385,6 +257,7 @@ const LoanForm = () => {
               </div>
             </>
           )}
+
           {loanType == "home" && (
             <>
               <div className="loan-type">
@@ -586,13 +459,11 @@ const LoanForm = () => {
             </>
           )}
 
-          {/* ✅ Use button instead of Link */}
-          <button type="submit" className="submit">
-            Submit Loan Application
-          </button>
+          {/* Other loan types (education, home, gold, agri) can follow similar structure */}
+
+          <button type="submit" className="submit">Submit Loan Application</button>
         </form>
       </div>
-      <Footer />
     </>
   );
 };

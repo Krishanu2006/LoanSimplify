@@ -14,6 +14,8 @@ import Sidebar from './Components/Sidebar';
 import LoanApplication from './Components/LoanApplication';
 import LoanTypeCard from './Components/LoanTypeCard';
 import ProgressBar from './Components/ProgressBar';
+import { useState } from 'react';
+import DocumentationSection from './Components/DocumentationSection';
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
       <Route path='/esign' element={<ESign/>}/>
       <Route path = '/review' element={<Review/>}/>
       <Route path = '/loanform' element={<LoanForm/>}/>
+      <Route path = '/documentationsection' element={<DocumentationSection/>}/>
       <Route path='/header' element={<Header/>}/>
       <Route path='/footer' element={<Footer/>}/>
       <Route path='/sidebar' element={<Sidebar/>}/>
