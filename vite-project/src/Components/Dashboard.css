@@ -75,7 +75,7 @@
 /* Main */
 .dashboard-main {
   flex-grow: 1;
-  padding: 40px 60px;
+  padding: 70px 20px;
   background-color: #f4f7f9;
 }
 
@@ -96,7 +96,7 @@
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
-  padding: 20px 24px;
+  padding: 20px 20px;
   margin-bottom: 20px;
   transition: all 0.2s ease;
   text-decoration: none;

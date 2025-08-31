@@ -133,8 +133,6 @@ const Login = () => {
           Don&apos;t have an account? <Link to="/signup">Signup Now</Link>
         </p>
       </div>
-
-      <Footer />
     </div>
   );
 };
