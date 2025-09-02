@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import './Header.css';
-import logoImg from "../assets/Logo.png"
+import logoImg from "../assets/Logo.png";
 
 const Header = () => {
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
 
+  // Detect scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -17,6 +19,20 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Check login status on load
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/login");
+  };
 
   const menuItems = [
     { label: 'Home', path: '/' },
@@ -34,7 +50,6 @@ const Header = () => {
             <img src={logoImg} alt="LoanSimplify Logo" className="logo-icon" />
             <span className="logo-text">LoanSimplify</span>
           </div>
-
         </div>
 
         {/* Center: Navigation */}
@@ -58,15 +73,28 @@ const Header = () => {
           </nav>
         </div>
 
-        {/* Right: Auth buttons */}
+        {/* Right: Auth / Account */}
         <div className="header-right">
           <div className="desktop-auth">
-            <button className="btn-ghost" onClick={() => navigate('/login')}>
-              Login
-            </button>
-            <button className="btn-primary" onClick={() => navigate('/signup')}>
-              Sign Up
-            </button>
+            {user ? (
+              <>
+                <button className="btn-ghost" onClick={() => navigate('/dashboard')}>
+                  Account
+                </button>
+                <button className="btn-primary" onClick={handleLogout}>
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="btn-ghost" onClick={() => navigate('/login')}>
+                  Login
+                </button>
+                <button className="btn-primary" onClick={() => navigate('/signup')}>
+                  Sign Up
+                </button>
+              </>
+            )}
           </div>
         </div>
 
@@ -75,10 +103,76 @@ const Header = () => {
           className="mobile-menu-btn"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {/* Mobile Menu Dropdown */}
+          {isMobileMenuOpen && (
+            <div className="mobile-nav">
+              {menuItems.map((item, index) => (
+                <a
+                  key={index}
+                  href={item.path}
+                  className="mobile-nav-link"
+                  onClick={(e) => {
+                    if (item.path === '/') {
+                      e.preventDefault();
+                      navigate('/');
+                    }
+                    setIsMobileMenuOpen(false); // close menu on click
+                  }}
+                >
+                  {item.label}
+                </a>
+              ))}
+
+              <div className="mobile-auth">
+                {user ? (
+                  <>
+                    <button
+                      className="btn-ghost"
+                      onClick={() => {
+                        navigate('/dashboard');
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Account
+                    </button>
+                    <button
+                      className="btn-primary"
+                      onClick={() => {
+                        handleLogout();
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="btn-ghost"
+                      onClick={() => {
+                        navigate('/login');
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Login
+                    </button>
+                    <button
+                      className="btn-primary"
+                      onClick={() => {
+                        navigate('/signup');
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Sign Up
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+
         </button>
       </div>
-
     </header>
   );
 };

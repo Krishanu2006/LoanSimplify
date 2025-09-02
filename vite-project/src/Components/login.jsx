@@ -42,6 +42,11 @@ const Login = () => {
     try {
       const cred = await signInWithEmailAndPassword(auth, email.trim(), password);
       await ensureUserDoc(cred.user);
+      localStorage.setItem("user", JSON.stringify({
+        uid: cred.user.uid,
+        email: cred.user.email,
+        name: cred.user.displayName || ""
+      }));
       navigate("/dashboard"); // ✅ redirect after login
     } catch (error) {
       setErr(readableError(error));
@@ -58,6 +63,11 @@ const Login = () => {
     try {
       const cred = await signInWithPopup(auth, provider);
       await ensureUserDoc(cred.user);
+      localStorage.setItem("user", JSON.stringify({
+        uid: cred.user.uid,
+        email: cred.user.email,
+        name: cred.user.displayName || ""
+      }));
       navigate("/dashboard"); // ✅ redirect after login
     } catch (error) {
       setErr(readableError(error));
