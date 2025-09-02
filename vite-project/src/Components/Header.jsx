@@ -94,14 +94,14 @@ const Header = () => {
         <div className="header-right">
           <div className="desktop-auth">
             {user ? (
-              <>
-                <button className="btn-ghost" onClick={() => navigate('/dashboard')}>
-                  Account
-                </button>
-                <button className="btn-primary" onClick={handleLogout}>
-                  Logout
-                </button>
-              </>
+              <div className="account-dropdown">
+                <button>Account ▾</button>
+                <div className="account-dropdown-content">
+                  <p><strong>Name:</strong> {user.name}</p>
+                  <p><strong>Email:</strong> {user.email}</p>
+                  <button onClick={handleLogout}>Logout</button>
+                </div>
+              </div>
             ) : (
               <>
                 <button className="btn-ghost" onClick={() => navigate('/login')}>
@@ -113,6 +113,8 @@ const Header = () => {
               </>
             )}
           </div>
+
+
         </div>
 
         {/* Mobile Menu Button */}
