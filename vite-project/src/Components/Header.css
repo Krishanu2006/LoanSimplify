@@ -107,15 +107,13 @@
   gap: 16px;
 }
 
-.btn-ghost,
-.btn-primary {
-  font-size: 15px;
-  font-weight: 600;          /* same font weight */
-  padding: 10px 20px;        /* same padding */
-  border-radius: 8px;        /* same radius */
-  cursor: pointer;
-  line-height: 1.4;          /* consistent height */
-  transition: all 0.3s ease;
+.btn-primary,
+.btn-ghost {
+  white-space: nowrap;   /* keep text in one line */
+  display: inline-flex;  /* align content properly */
+  align-items: center;   /* vertical centering */
+  justify-content: center;
+  padding: 10px 28px; 
 }
 
 /* Ghost Button (Login) */

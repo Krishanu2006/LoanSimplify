@@ -16,6 +16,7 @@ import LoanTypeCard from './Components/LoanTypeCard';
 import ProgressBar from './Components/ProgressBar';
 import { useState } from 'react';
 import DocumentationSection from './Components/DocumentationSection';
+import Account from './Components/Account';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
       <Route path='/loanapplication' element={<LoanApplication/>}/>
       <Route path='/loantypecard' element={<LoanTypeCard/>}/>
       <Route path='/progressbar' element={<ProgressBar/>}/>
+      <Route path='/account' element={<Account/>}/>
     </Routes>
   );
 }

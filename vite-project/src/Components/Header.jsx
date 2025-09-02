@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import './Header.css';
@@ -9,6 +9,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const menuRef = useRef(null);
 
   // Detect scroll effect
   useEffect(() => {
@@ -19,6 +20,22 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close mobile menu on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
 
   // Check login status on load
   useEffect(() => {
@@ -103,76 +120,77 @@ const Header = () => {
           className="mobile-menu-btn"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {/* Mobile Menu Dropdown */}
-          {isMobileMenuOpen && (
-            <div className="mobile-nav">
-              {menuItems.map((item, index) => (
-                <a
-                  key={index}
-                  href={item.path}
-                  className="mobile-nav-link"
-                  onClick={(e) => {
-                    if (item.path === '/') {
-                      e.preventDefault();
-                      navigate('/');
-                    }
-                    setIsMobileMenuOpen(false); // close menu on click
-                  }}
-                >
-                  {item.label}
-                </a>
-              ))}
-
-              <div className="mobile-auth">
-                {user ? (
-                  <>
-                    <button
-                      className="btn-ghost"
-                      onClick={() => {
-                        navigate('/dashboard');
-                        setIsMobileMenuOpen(false);
-                      }}
-                    >
-                      Account
-                    </button>
-                    <button
-                      className="btn-primary"
-                      onClick={() => {
-                        handleLogout();
-                        setIsMobileMenuOpen(false);
-                      }}
-                    >
-                      Logout
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      className="btn-ghost"
-                      onClick={() => {
-                        navigate('/login');
-                        setIsMobileMenuOpen(false);
-                      }}
-                    >
-                      Login
-                    </button>
-                    <button
-                      className="btn-primary"
-                      onClick={() => {
-                        navigate('/signup');
-                        setIsMobileMenuOpen(false);
-                      }}
-                    >
-                      Sign Up
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-          )}
-
+          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {isMobileMenuOpen && (
+        <div className="mobile-nav" ref={menuRef}>
+          {menuItems.map((item, index) => (
+            <a
+              key={index}
+              href={item.path}
+              className="mobile-nav-link"
+              onClick={(e) => {
+                if (item.path === '/') {
+                  e.preventDefault();
+                  navigate('/');
+                }
+                setIsMobileMenuOpen(false); // close menu on link click
+              }}
+            >
+              {item.label}
+            </a>
+          ))}
+
+          <div className="mobile-auth">
+            {user ? (
+              <>
+                <button
+                  className="btn-ghost"
+                  onClick={() => {
+                    navigate('/account');
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Account
+                </button>
+                <button
+                  className="btn-primary"
+                  onClick={() => {
+                    handleLogout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className="btn-ghost"
+                  onClick={() => {
+                    navigate('/login');
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Login
+                </button>
+                <button
+                  className="btn-primary"
+                  onClick={() => {
+                    navigate('/signup');
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Sign Up
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 };
